@@ -9,11 +9,11 @@ import configStore from "../../store";
 import { getUserInfo } from "../../store/action";
 
 
-const UserIn = (props) => {
+const UserIn = ({userInfo, getUserInfos}) => {
 
-  const [userInfo, setUserInfo] = useState(null)
+  // const [userInfo, setUserInfo] = useState(null)
   const [hasInfo, setHasInfo] = useState(false)
-  const store = configStore()
+  // const store = configStore()
   useEffect(()=> {
 
   })
@@ -22,11 +22,13 @@ const UserIn = (props) => {
       desc: '用于完善用户信息',
       success: res => {
         console.log(res);
-        store.dispatch(getUserInfo(res?.userInfo))
-        setUserInfo(res?.userInfo)
+        getUserInfos(res?.userInfo)
+        // store.dispatch(getUserInfo(res?.userInfo))
+        console.log(userInfo)
+        // setUserInfo(res?.userInfo)
         setHasInfo(!hasInfo)
       },
-      fail: res => {}
+      fail: res => {console.log(res);}
     })
   }
   return (
@@ -51,13 +53,14 @@ const UserIn = (props) => {
 }
 const User = connect((state) => {//mapStateToProps
   //state为当前redux 执行getState()后获得的对象
-  console.log(state);
+  // console.log(userInfo);
   return {
-    state
+    userInfo: state?.userInfo
   }
 }, (dispatch) => {
   return {
     // handleclick: (list) => dispatch(showEnActin(list))
+    getUserInfos: (userInfo) => dispatch(getUserInfo(userInfo))
   }
 })(UserIn)
 

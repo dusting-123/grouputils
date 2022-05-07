@@ -1,7 +1,7 @@
 import { Button, Picker, View } from "@tarojs/components";
 import { useShareAppMessage } from "@tarojs/taro";
 import React, { useEffect, useState } from "react";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import {
   AtButton,
   AtForm,
@@ -12,8 +12,10 @@ import {
   AtModalContent,
   AtSwitch
 } from "taro-ui";
+import configStore from "../../../store";
 import './index.less';
-const SignIn = (props) => {
+
+const SignIn = ({userInfo}) => {
 
   const [show, setShow] = useState(false)
   const [form, setForm] = useState({
@@ -24,25 +26,23 @@ const SignIn = (props) => {
     open: true,
     save: true,
   })
-
-  const userInfo = useSelector(state => state.userInfo);
+  const store = configStore()
+  // const userInfo = useSelector(state => state.userInfo);
 
   // const store = configStore()
   // const { userInfo } = store.getState()
 
 
   useEffect(() => {
-    console.log(userInfo);
-  }, [form])
 
-  console.log('console.log(userInfo);', userInfo);
+  }, [form])
   useShareAppMessage(res => {
     if (res.from === 'button') {
       console.log(res.target)
     }
     return {
       title: '分享到群',
-      path: ''
+      path: `/pages/package/pages/signDetail/index?name=${userInfo.nickName}&avatar=${userInfo?.avatarUrl}`
     }
   })
 
@@ -121,18 +121,17 @@ const SignIn = (props) => {
       /> */}
       <AtModal isOpened={show}>
         <AtModalContent>请仔细检查，确认发布？</AtModalContent>
-        <AtModalAction> 
-          <Button onClick={e => setShow(!show)}>取消</Button> 
-          <Button type="primary" openType="share">确定</Button> 
+        <AtModalAction>
+          <Button onClick={e => setShow(!show)}>取消</Button>
+          <Button type="primary" openType="share">确定</Button>
         </AtModalAction>
       </AtModal>
     </>
 
   )
 }
-const Sign = connect(({userInfo}) => {//mapStateToProps
+const Sign = connect(({ userInfo }) => {//mapStateToProps
   //state为当前redux 执行getState()后获得的对象
-  console.log(userInfo);
   return {
     userInfo
   }
@@ -142,4 +141,4 @@ const Sign = connect(({userInfo}) => {//mapStateToProps
   }
 })(SignIn)
 
-export default SignIn
+export default Sign

@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import Aaa from "../../components/aaa";
 import './index.less';
 
+import configStore from "../../store";
 
 const Home = (props) => {
 
   const [current, setCurrent] = useState(0)
   console.log(props);
   const { state } = props
-  const { showener } = state
   const taskList = [{
     name: '签到考勤',
     icon: ''

@@ -58,7 +58,19 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
-    }
+    },
+    // Proxy: {
+    //   '/api': {
+    //     target: "www.xxxx.com",
+    //     changeOrigin: true,
+    //     // pathRewrite: {'^/api': ''}
+    //   },
+    //   '/scrm/api': {
+    //     target: "www.xxxx.com",
+    //     changeOrigin: true,
+    //     pathRewrite: {'^/scrm': ''}
+    //   }
+    // }
   }
 }
 

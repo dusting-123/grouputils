@@ -39,13 +39,10 @@ function App (props) {
       }
     })
   })
-
   // 对应 onShow
   useDidShow(() => {})
-
   // 对应 onHide
   useDidHide(() => {})
-
   return (
     // 在入口组件不会渲染任何内容，但我们可以在这里做类似于状态管理的事情
     <Provider store={store}>
@@ -54,5 +51,4 @@ function App (props) {
     </Provider>
   )
 }
-
 export default App
