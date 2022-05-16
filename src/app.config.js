@@ -1,12 +1,10 @@
 export default {
   pages: [
     'pages/home/index',
-    // 'pages/index',
-    'pages/creat/index',
     'pages/part/index',
     'pages/user/index',
-    'pages/home/vote/index',
     'pages/home/sign/index',
+    'pages/home/vote/index',
     'pages/home/draw/index',
     'pages/home/schedule/index'
   ],
@@ -21,11 +19,6 @@ export default {
       'selectedIconPath': '',
       pagePath: 'pages/part/index',
       text: ' 参与'
-    }, {
-      'iconPath': '',
-      'selectedIconPath': '',
-      pagePath: 'pages/creat/index',
-      text: '创建'
     }, {
       'iconPath': '',
       'selectedIconPath': '',
@@ -47,7 +40,8 @@ export default {
     {
       "root": "pages/package",
       "pages": [
-        "pages/signDetail/index"
+        "pages/signDetail/index",
+        "pages/voteDetail/index",
       ]
     }
   ]

@@ -3,8 +3,11 @@ import cors from 'cors';
 import express from 'express';
 import got from 'got';
 import { insertData } from './src/mongodb/db.js';
+import mongoose from 'mongoose';
 
 const app = express()
+const signlist = null
+
 app.use(cors())
 let urlencodedParser = parseBody.urlencoded({extended: false})
 app.get('/login', (req,response) =>{
@@ -18,9 +21,13 @@ app.get('/login', (req,response) =>{
   })
 })
 app.post('/sign/create',urlencodedParser,(req,res)=>{
+  console.log(req);
   let data = req.body
-  // let params  = 
-  res.send({"name": 2123})
+  signlist = data
+  res.send({scuess: 200,errorMsg: null})
+})
+app.get('/sign/info', (req,res) => {
+
 })
 app.get('/userinfo', (req, res) =>{
   let data = req.query
@@ -28,6 +35,9 @@ app.get('/userinfo', (req, res) =>{
     console.log(res);
   })
 })
-app.listen(3456, res => {
-  console.log("服务器正在监听3456端口！");
-})
+
+
+
+
+// app.post('')
+

@@ -21,16 +21,19 @@ function App (props) {
         if (res.code) {
           //发起网络请求
           Taro.request({
-            url: 'http://localhost:3456/login',
+            url: 'http://localhost:3456/wxlogin',
             data: {
               code: res.code
             },
             success: res => {
               const { data } = res
               console.log(data);
-              Taro.setStorageSync({key: 'openid', data: data?.openid})
-              Taro.setStorageSync({key: 'session_key', data: data?.session_key})
+              Taro.setStorageSync('openid', data?.openid)
+              Taro.setStorageSync('session_key', data?.session_key)
 
+            },
+            fail: res => {
+              console.log(res);
             }
           })
         } else {

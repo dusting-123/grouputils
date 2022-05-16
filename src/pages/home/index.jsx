@@ -2,7 +2,6 @@ import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import React, { useState } from "react";
 import { connect } from 'react-redux';
-import Aaa from "../../components/aaa";
 import './index.less';
 
 import configStore from "../../store";
@@ -16,10 +15,10 @@ const Home = (props) => {
     name: '签到考勤',
     icon: ''
   },{
-    name: '活动抽签',
+    name: '投票统计',
     icon: ''
   },{
-    name: '投票统计',
+    name: '活动抽签',
     icon: ''
   },{
     name: '日程安排',
@@ -63,10 +62,7 @@ const Index = connect((state) => {//mapStateToProps
   return {
     state
   }
-}, (dispatch) => {
-  return {
-    // handleclick: (list) => dispatch(showEnActin(list))
-  }
-})(Home)
+},
+)(Home)
 
 export default Index

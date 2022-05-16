@@ -7,7 +7,7 @@ import style from './index.less';
 import { View } from "@tarojs/components";
 import configStore from "../../store";
 import { getUserInfo } from "../../store/action";
-
+import api from "@/servers/api";
 
 const UserIn = ({userInfo, getUserInfos}) => {
 
@@ -18,13 +18,19 @@ const UserIn = ({userInfo, getUserInfos}) => {
 
   })
   const handleClick = (e) =>{
+    
     Taro.getUserProfile({
       desc: '用于完善用户信息',
       success: res => {
         console.log(res);
+        const {userInfo } = res
+        api
+          .post('/wxlogin',{
+            ...userInfo,
+            openid: Taro.getStorageSync('openid'),
+          },
+           'application/x-www-form-urlencoded')
         getUserInfos(res?.userInfo)
-        // store.dispatch(getUserInfo(res?.userInfo))
-        console.log(userInfo)
         // setUserInfo(res?.userInfo)
         setHasInfo(!hasInfo)
       },

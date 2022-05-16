@@ -1,72 +1,129 @@
 //reducer可以：初始化状态，加工状态，最后返回新状态
 import { combineReducers } from "redux";
 import {
-  DECREMENT, INCREMENT, INCREMENTASYNC, INCREMENTIFODD, SHOWEN,
-  USERINFO
+  SIGNINFO,
+  USERINFO,
+  CREATERINFO,
+  SIGNLIST,
+  USERSIGNLIST,
+  GETVOTEINFO,
+  UNIQUE,
+  GETVOTELIST
 } from "./constant";
 import { count, state } from './state';
 const {
-  userInfo
+  userInfo,
+  signInfo,
+  createrInfo,
+  signList,
+  userSignList,
+  voteInfo,
+  uniqueClickState,
+  voteList
 } = state
-function increment(state, action) {
-  console.log(action);
-  const {payload } = action
-  return state + Number(payload)
-}
-function decrement(state, action) {
-  const {payload } = action
-  return state - Number(payload)
-}
+
 function getUserInfo(userInfo, action) {
-  console.log(userInfo,action)
-  const {payload} = action
-  let aaa = {
+  const { payload } = action
+  return {
     ...userInfo,
     ...payload
   }
-  console.log(aaa);
-  // return {
-  //   ...userInfo,
-  //   ...payload
-  // }
-  return aaa
 }
-
-function showEnTodo(state, action){
-  const {payload } = action
+function getSignInfo(signInfo, action) {
+  const { payload } = action
   return {
-    ...state,
-    list: payload
+    ...signInfo,
+    ...payload
   }
 }
-const showenReducer = createReducer(state, {
-  [SHOWEN]: showEnTodo
-})
-const counterReducer = createReducer(count, {
-  [INCREMENT]:increment,
-  [DECREMENT]:decrement,
-  [INCREMENTIFODD]:increment,
-  [INCREMENTASYNC]:increment
-})
+function getCreaterInfo(createrInfo, action) {
+  const { payload } = action
+  return {
+    ...createrInfo,
+    ...payload
+  }
+}
+function getSignList(signList, action) {
+  const { payload } = action
+  return {
+    ...signList,
+    ...payload
+  }
+}
+function getUserSignList(userSignList, action) {
+  const { payload } = action
+  return {
+    ...userSignList,
+    ...payload
+  }
+}
+function getVoteInfo(voteInfo, action) {
+  const { payload } = action
+  return {
+    ...voteInfo,
+    ...payload
+  }
+}
+function uniqueStateChange(uniqueClickState, action) {
+  const { payload } = action
+  // console.log("before:",uniqueClickState,"after:",payload);
+  return {
+    ...uniqueClickState,
+    ...payload
+  }
+}
+function getVoteList(voteList, action) {
+  const { payload } = action
+  return {
+    ...voteList,
+    ...payload
+  }
+}
+
 const userInfoReducer = createReducer(userInfo, {
   [USERINFO]: getUserInfo
 })
+const signInfoReducer = createReducer(signInfo, {
+  [SIGNINFO]: getSignInfo
+})
+const createrInfoReducer = createReducer(createrInfo, {
+  [CREATERINFO]: getCreaterInfo
+})
+const getSignListReducer = createReducer(signList, {
+  [SIGNLIST]: getSignList
+})
+const getUserSignListReducer = createReducer(userSignList, {
+  [USERSIGNLIST]: getUserSignList
+})
+const getVoteInfoReducer = createReducer(voteInfo, {
+  [GETVOTEINFO]: getVoteInfo
+})
+const uniqueStateChangeReducer = createReducer(uniqueClickState, {
+  [UNIQUE]: uniqueStateChange
+})
+const getVoteListReducer = createReducer(voteList, {
+  [GETVOTELIST]: getVoteList
+})
+export default combineReducers({
+  userInfo: userInfoReducer,
+  signInfo: signInfoReducer,
+  createrInfo: createrInfoReducer,
+  signList: getSignListReducer,
+  userSignList: getUserSignListReducer,
+  voteInfo: getVoteInfoReducer,
+  uniqueClickState: uniqueStateChangeReducer,
+  voteList: getVoteListReducer
+})
+
 function createReducer(initState, handlers) {
-  
+  console.log(initState);
   return function reducer(state = initState, action) {
     // console.log(handlers);
     // console.log(action);
     // console.log(state);
     // console.log(getUserInfo(state, action))
-    if(handlers.hasOwnProperty(action.type)) {
-      console.log(handlers[action.type](state, action));
+    if (handlers.hasOwnProperty(action.type)) {
       return handlers[action.type](state, action)
-      /*
-        let a = {
-          aaa:funcation
-        }
-        getUserInfo()
-      */
     } else {
       return {
         ...state
@@ -74,68 +131,3 @@ function createReducer(initState, handlers) {
     }
   }
 }
-export default combineReducers({
-  // counter: counterReducer,
-  // showener: showenReducer,
-  userInfo:userInfoReducer
-})
-// export default reducer
-
-
-
-
-// function undateObject(oldObj, newValues) {
-//   console.log(Object.assign({}, oldObj, newValues));
-//   return Object.assign({}, oldObj, newValues)
-// }
-
-// function updateItem(array, itemId, updatecallback) {
-//   const updateItems = array.map(item => {
-//     if (item.id !== itemId) {
-//       //具体操作
-//       return item
-//     }
-//     const updateItem = updatecallback(item)
-//     return updateItem
-//   })
-
-//   return updateItems
-// }
-
-
-// const todosReducer = createReducer([], {
-//   INCREMENT: INCREMENT,
-//   DECREMENT: DECREMENT
-// })
-// function counterReducer(prestate = 0, action) {
-//   console.log(count);
-
-//   const { type, payload } = action
-//   switch (type) {
-//     case INCREMENT:
-//       return increment(prestate, payload)
-//     case DECREMENT:
-//       return decrement(prestate, payload)
-//     case INCREMENTIFODD:
-//       return increment(prestate, payload)
-//     case INCREMENTASYNC:
-//       return increment(prestate, payload)
-//     default:
-//       return prestate
-//   }
-// }
-
-// function showenReducer(prestate = state, action) {
-//   const { type, payload } = action;
-//   // 当 reducer 接受到不同类型的 action 时，会对 state 进行处理，返回一个新的 state 值
-//   switch (type) {
-//     case SHOWEN:
-//       // return undateObject(prestate, payload)
-//       return {
-//         ...prestate,
-//         list: payload // 这里传过来的 payload 就是筛选过的数组
-//       };
-//     default:
-//       return state;
-//   }
-// }

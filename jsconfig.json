@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": "http://localhost:3456",
+    "paths": {
+      "@/components/*": ["./src/components/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/package": ["./package.json"],
+      "@/project": ["./project.config.json"],
+      "@/store/*": ["./src/store/*"],
+      "@/servers/*": ["./src/servers/*"],
+      "@/assets/*": ["./src/assets/*"],
+    }
+  }
+}
