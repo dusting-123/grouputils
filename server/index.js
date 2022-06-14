@@ -24,7 +24,7 @@ app.post('/sign/create',urlencodedParser,(req,res)=>{
   console.log(req);
   let data = req.body
   signlist = data
-  res.send({scuess: 200,errorMsg: null})
+  res.send({success: 200,errorMsg: null})
 })
 app.get('/sign/info', (req,res) => {
 

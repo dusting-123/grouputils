@@ -1,10 +1,10 @@
-import Taro from "@tarojs/taro";
-import { getVoteInfoAsync, uniqueStateChange, subVoteOptAsync } from "@/store/action";
+import configStore from "@/store";
+import { getVoteInfoAsync, subVoteOptAsync, uniqueStateChange } from "@/store/action";
 import { parseParam } from "@/utils";
-import { Button, Image, Text, View, Progress } from "@tarojs/components";
+import { Button, Image, Progress, Text, View } from "@tarojs/components";
+import Taro from "@tarojs/taro";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import configStore from "@/store";
 import './index.less';
 const store = configStore()
 const voteDetailIn = (props) => {
@@ -22,8 +22,8 @@ const voteDetailIn = (props) => {
   const params = parseParam(tid);
   const openid = Taro.getStorageSync('openid')
   console.log(params);
-  useEffect(async () => {
-    await getVoteInfoAsync(params)
+  useEffect(() => {
+    getVoteInfoAsync(params)
   }, [])
 
   const voteOne = (e) => {
@@ -56,7 +56,7 @@ const voteDetailIn = (props) => {
   const ok = async () => {
     let hasSelected = false;
     for (let i = 0; i < voteInfo.optionData.length; i++) {
-      if(uniqueState[voteInfo.optionData[i].unique]) {
+      if (uniqueState[voteInfo.optionData[i].unique]) {
         hasSelected = true
         break
       }
@@ -76,10 +76,10 @@ const voteDetailIn = (props) => {
     let totalNumber = 0;
     let optData = voteInfo.optionData
     for (let i = 0; i < optData.length; i++) {
-      totalNumber += optData[i].number
+      totalNumber = optData[i].number + totalNumber
     }
     for (let i = 0; i < optData.length; i++) {
-      if(uniqueState[optData[i].unique]) {
+      if (uniqueState[optData[i].unique]) {
         optData[i].number += 1;
         totalNumber += 1;
         optData[i].joiner.push([openid, userInfo.avatarUrl, userInfo.nickName])
@@ -95,9 +95,9 @@ const voteDetailIn = (props) => {
     }
     await subVoteOptAsync(voteParams);
     Taro.hideLoading();
-    setOkWord({okWord: '已投票'})
+    setOkWord({ okWord: '已投票' })
     Taro.showToast({
-      title:'投票成功！',
+      title: '投票成功！',
       icon: 'success',
       duration: 1500
     })
@@ -113,11 +113,13 @@ const voteDetailIn = (props) => {
         <View style='padding:5px 0'>
           {
             voteInfo.optionData && voteInfo.optionData.map((item) => {
+              console.log(item.number, item.percent);
+              console.log(item);
               return (
                 <View onClick={(e) => voteOne(e)} data-unique={item.unique} className="option">
                   <View className='option-front'>
                     <Text>{item.content}</Text>
-                    <Image src={require('@/assets/imgs/vote/right.svg')} className={`right ${uniqueState[item.unique]?'selected':''}`}></Image>
+                    <Image src={require('@/assets/imgs/vote/right.svg')} className={`right ${uniqueState[item.unique] ? 'selected' : ''}`}></Image>
                   </View>
                   <View>
                     <Text>{item.number}票</Text>
@@ -126,11 +128,11 @@ const voteDetailIn = (props) => {
                   <Progress percent={item.percent} stroke-width="2" color="#346CFF" />
                   <View style='background:#fff;border-top:1px solid #f6f6f6;'>
                     {
-                      item.joiner && item.joiner.map(itm => {
-                        return (
-                          <Image className="user-imgs" key={itm} src={itm[1]}/>
-                        )
-                      })
+                      // item.joiner && item.joiner.map(itm => {
+                      //   return (
+                      //     <Image className="user-imgs" key={itm} src={itm[1]} />
+                      //   )
+                      // })
                     }
                   </View>
                 </View>
@@ -140,7 +142,7 @@ const voteDetailIn = (props) => {
         </View>
         <View className="end-time">投票截止：{voteInfo.date} {voteInfo.time}</View>
         <View className='guidance'>步骤：点击勾选你的选项，然后按‘确认投票’按钮，确认后将不可更改。</View>
-        <Button className="ok" onClick={()=> ok()} disabled={okWord == "已投票"}>{okWord}</Button>
+        <Button className="ok" onClick={() => ok()} disabled={okWord == "已投票"}>{okWord}</Button>
       </View>
     </>
   )

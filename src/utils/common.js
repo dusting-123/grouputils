@@ -1,8 +1,8 @@
 import Taro from '@tarojs/taro'
 
-Taro.getStorage({
-  key: 'keywordsList'
-})
+// Taro.getStorage({
+//   key: 'keywordsList'
+// })
 
 export const formatNumber = (n) => {
   n = n.toString()
@@ -85,4 +85,10 @@ export const formatTimeStampToTime = (timestamp) => {
   // const minutes = date.getMinutes() + ':';
   // const second = date.getSeconds();
   return `${year}-${month}-${day}`
+}
+export const CompareDate = function (t1,t2){
+var date = new Date();
+var a = t1.split(":");
+var b = t2.split(":");
+return date.setHours(a[0],a[1]) < date.setHours(b[0],b[1]);
 }

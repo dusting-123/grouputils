@@ -8,7 +8,6 @@ signRoutes.route('/create')
 
 signRoutes.route('/list')
   .get(sign.list)
-  signRoutes.route('/update')
-  .get(sign.update)
+signRoutes.route('/update').get(sign.update)
 
 export default signRoutes 

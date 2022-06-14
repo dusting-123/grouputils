@@ -6,7 +6,7 @@ export function create(req, res, next) {
   voteModel.create(body, (err, doc) => {
     if (!err) { }
   })
-  res.send({ code: 200, scuess: true })
+  res.send({ code: 200, success: true })
 }
 
 export async function info(req, res, next) {
@@ -15,7 +15,7 @@ export async function info(req, res, next) {
   res.send({
     code: 200,
     data: voteInfo,
-    scuess: true
+    success: true
   })
 
 }
@@ -29,11 +29,12 @@ export async function update(req, res, next) {
   res.send({
     code: 200,
     data: voteInfo,
-    scuess: true
+    success: true
   })
 }
 export async function partList(req, res, next) {
   const { query } = req
+  console.log("qqqqqq",query);
   const getVoteInfo = async function (voteIdList) {
     const length = voteIdList.length
     const list = []
@@ -65,9 +66,10 @@ export async function partList(req, res, next) {
 
   const voteCreaterList = await createrList(voteInfoList)
   const resList = {voteInfoList ,voteCreaterList}
+  console.log("ppppppp", resList);
   res.send({
     code: 200,
     data:resList,
-    scuess: true
+    success: true
   })
 }

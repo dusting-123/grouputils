@@ -9,7 +9,7 @@ const voteSchema = new Schema({
   optionData: [{
     unique: {type: Number}, 
     content: {type: String},
-    number: {typr: Number}, 
+    number: {type: Number}, 
     percent: {type: Number}, 
     joiner: {type: Array}
   }],

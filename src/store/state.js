@@ -1,12 +1,5 @@
 export const state = {
-  userInfo: {
-    avatarUrl: '',
-    city: '',
-    country: '',
-    gender: null,
-    nickName: '',
-    province: ''
-  },
+  userInfo: {},
   signInfo: {},
   voteInfo: {},
   createrInfo: {
@@ -22,5 +15,9 @@ export const state = {
   voteList: {
     voteInfoList: [],
     voteCreaterList: []
-  }
+  },
+  roomList: [],
+  signRecord: {},
+  preList: {},
+  preinfo: {}
 }

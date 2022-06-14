@@ -1,7 +1,6 @@
 import singMondel from '../models/sign.js';
 import signListModel from '../models/signList.js';
 import wxloginMondel from '../models/wxUser.js';
-
 export function create(req, res, next) {
   let body = req.body
   signListModel.findOne({signid: body.signid,openid:body.openid}, (err, docs) => {
@@ -10,7 +9,7 @@ export function create(req, res, next) {
         if (!err) console.log(doc);
         res.send({
           code: 200,
-          scuess: true
+          success: true
         })
       })
     }
@@ -53,7 +52,7 @@ export async function info(req, res, next) {
   res.send({
     code: 200,
     data: resList,
-    scuess: true
+    success: true
   })
 }
 export async function list(req, res ,next) {
@@ -77,6 +76,24 @@ export async function list(req, res ,next) {
   res.send({
     code: 200,
     data: resList,
-    scuess: true
+    success: true
+  })
+}
+export async function update(req, res, next) {
+  const { query } = req
+  await signListModel.updateOne({signid: query.signid, openid: query.openid}, {signStatus: query.signStatus}).exec()
+  res.send({
+    code: 200,
+    success: true
+  })
+}
+export async function record(req, res, next) {
+  const { query } = req
+  console.log(88888,query);
+  let statusCode = await signListModel.findOne({openid: query.openid, signid: query.signid}).select({signStatus: 1, _id: 0}).exec()
+  res.send({
+    code: 200,
+    data: statusCode,
+    success: true
   })
 }

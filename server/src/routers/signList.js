@@ -8,4 +8,8 @@ signListRoutes.route('/info')
   .get(signList.info)
 signListRoutes.route('/list')
   .get(signList.list)
+signListRoutes.route('/update')
+  .get(signList.update)
+signListRoutes.route('/record')
+  .get(signList.record)
 export default signListRoutes 

@@ -1,60 +1,59 @@
-import React, { useEffect, useState } from "react";
+import api from "@/servers/api";
+import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
+import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
 import { AtAvatar, AtList, AtListItem } from "taro-ui";
-import ButtomMenu from "../../components/BottomMenu";
-import style from './index.less';
-import { View } from "@tarojs/components";
-import configStore from "../../store";
-import { getUserInfo } from "../../store/action";
-import api from "@/servers/api";
-
-const UserIn = ({userInfo, getUserInfos}) => {
+import { getUserInfoAsync, setUserAsync } from "../../store/action";
+import avar from "@/assets/imgs/user/avar.png"
+import './index.less'
+const UserIn = ({ userInfo, getUserInfoAsync, setUserAsync }) => {
 
   // const [userInfo, setUserInfo] = useState(null)
   const [hasInfo, setHasInfo] = useState(false)
-  // const store = configStore()
-  useEffect(()=> {
+  // const openid = Taro.getStorageSync('openid')
+  useEffect(() => {
+    // getUserInfoAsync(openid)
+  }, [])
+  const handleClick = (e) => {
 
-  })
-  const handleClick = (e) =>{
-    
     Taro.getUserProfile({
       desc: '用于完善用户信息',
       success: res => {
         console.log(res);
-        const {userInfo } = res
-        api
-          .post('/wxlogin',{
-            ...userInfo,
-            openid: Taro.getStorageSync('openid'),
-          },
-           'application/x-www-form-urlencoded')
-        getUserInfos(res?.userInfo)
-        // setUserInfo(res?.userInfo)
-        setHasInfo(!hasInfo)
+        const { userInfo } = res
+        setUserAsync(userInfo)
+
       },
-      fail: res => {console.log(res);}
+      fail: res => { console.log(res); }
+    })
+    setHasInfo(!hasInfo)
+  }
+  const navTo = (page) => {
+    const route = {
+      about: page == 'about' ? page : null,
+      suggest: page == 'suggest' ? page : null,
+      myInfo: page == 'myInfo' ? page : null
+    }
+    Taro.navigateTo({
+      url: `/pages/package/pages/${route[page]}/index`,
     })
   }
   return (
-    <>
-      <View>
-        <View className="user-header" onClick={(e)=>handleClick(e)}>
-          <AtAvatar size="large" circle image={userInfo?.avatarUrl || '#'}></AtAvatar>
-          <View className="user-name">{userInfo?.nickName || ''}</View>
-        </View>
-        <View>
-          <AtList>
-            <AtListItem title="我的信息" arrow="right" />
-            {/* <AtListItem title="aaa" arrow="right" /> */}
-            <AtListItem title="提点建议" arrow="right" />
-            <AtListItem title="关于助手" arrow="right" />
-            <AtListItem title="退出登录"/>
-          </AtList>
-        </View>
+    <View>
+      <View className="userheader" onClick={(e) => handleClick(e)}>
+        <AtAvatar size="large" circle image={userInfo?.avatarUrl || avar}></AtAvatar>
+        <View className="username">{userInfo?.nickName || ''}</View>
       </View>
-    </>
+      <View>
+        <AtList>
+          <AtListItem title="我的信息" arrow="right" onClick={()=> navTo('myInfo')}/>
+          <AtListItem title="提点建议" arrow="right" onClick={()=> navTo('suggest')}/>
+          <AtListItem title="关于助手" arrow="right" onClick={()=> navTo('about')} />
+          {/* <AtListItem title="退出登录"/> */}
+        </AtList>
+      </View>
+    </View>
   )
 }
 const User = connect((state) => {//mapStateToProps
@@ -63,11 +62,9 @@ const User = connect((state) => {//mapStateToProps
   return {
     userInfo: state?.userInfo
   }
-}, (dispatch) => {
-  return {
-    // handleclick: (list) => dispatch(showEnActin(list))
-    getUserInfos: (userInfo) => dispatch(getUserInfo(userInfo))
-  }
+}, {
+    getUserInfoAsync: getUserInfoAsync,
+    setUserAsync: setUserAsync
 })(UserIn)
 
 export default User

@@ -8,9 +8,13 @@ import {
   USERSIGNLIST,
   GETVOTEINFO,
   UNIQUE,
-  GETVOTELIST
+  GETVOTELIST,
+  ROOMLIST,
+  SIGNRECORD,
+  GETPRELIST,
+  GETPREINFO
 } from "./constant";
-import { count, state } from './state';
+import { state } from './state';
 const {
   userInfo,
   signInfo,
@@ -19,9 +23,25 @@ const {
   userSignList,
   voteInfo,
   uniqueClickState,
-  voteList
+  voteList,
+  roomList,
+  signRecord,
+  preList,
+  preinfo
 } = state
-
+//Rdeucer构造器
+function createReducer(initState, handlers) {
+  console.log(initState);
+  return function reducer(state = initState, action) {
+    if (handlers.hasOwnProperty(action.type)) {
+      return handlers[action.type](state, action)
+    } else {
+      return {
+        ...state
+      }
+    }
+  }
+}
 function getUserInfo(userInfo, action) {
   const { payload } = action
   return {
@@ -66,7 +86,6 @@ function getVoteInfo(voteInfo, action) {
 }
 function uniqueStateChange(uniqueClickState, action) {
   const { payload } = action
-  // console.log("before:",uniqueClickState,"after:",payload);
   return {
     ...uniqueClickState,
     ...payload
@@ -78,6 +97,26 @@ function getVoteList(voteList, action) {
     ...voteList,
     ...payload
   }
+}
+function getRoomList(roomList, action) {
+  const { payload } = action
+  console.log(payload);
+  return [...payload]
+}
+function getSignRecord(signRecord, action) {
+  const { payload } = action
+  return {
+    ...signRecord,
+    ...payload
+  }
+}
+function getPreList(preList, action) {
+  const {payload} = action
+  return {...preList, ...payload}
+}
+function getPreInfo(preinfo, action) {
+  const {payload} = action
+  return {...preinfo, ...payload}
 }
 
 const userInfoReducer = createReducer(userInfo, {
@@ -104,6 +143,19 @@ const uniqueStateChangeReducer = createReducer(uniqueClickState, {
 const getVoteListReducer = createReducer(voteList, {
   [GETVOTELIST]: getVoteList
 })
+const getRoomListReducer = createReducer(roomList, {
+  [ROOMLIST]: getRoomList
+})
+const getSignRecordReducer = createReducer(signRecord, {
+  [SIGNRECORD]: getSignRecord
+})
+const getPreListReducer = createReducer(preList, {
+  [GETPRELIST]: getPreList
+})
+const getPreInfoReducer = createReducer(preList, {
+  [GETPREINFO]: getPreInfo
+})
+
 export default combineReducers({
   userInfo: userInfoReducer,
   signInfo: signInfoReducer,
@@ -112,22 +164,9 @@ export default combineReducers({
   userSignList: getUserSignListReducer,
   voteInfo: getVoteInfoReducer,
   uniqueClickState: uniqueStateChangeReducer,
-  voteList: getVoteListReducer
+  voteList: getVoteListReducer,
+  roomList: getRoomListReducer,
+  signRecord: getSignRecordReducer,
+  preList:  getPreListReducer,
+  preinfo: getPreInfoReducer
 })
-
-function createReducer(initState, handlers) {
-  console.log(initState);
-  return function reducer(state = initState, action) {
-    // console.log(handlers);
-    // console.log(action);
-    // console.log(state);
-    // console.log(getUserInfo(state, action))
-    if (handlers.hasOwnProperty(action.type)) {
-      return handlers[action.type](state, action)
-    } else {
-      return {
-        ...state
-      }
-    }
-  }
-}

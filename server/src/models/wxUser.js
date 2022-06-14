@@ -10,7 +10,8 @@ const wxUserSchema = new Schema({
   province: { type: String },
   country: { type: String },
   avatarUrl: { type: String },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  motto: {type: String}
 })
 wxUserSchema.statics = {
 

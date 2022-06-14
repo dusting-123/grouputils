@@ -29,7 +29,6 @@ export function debounce(fn, delay = 1000) {
            clearTimeout(timer);
            timer = null;
        }
-
        timer = setTimeout(() => {
            fn.apply(this, args);
        }, delay);

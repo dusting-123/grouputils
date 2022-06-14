@@ -6,7 +6,7 @@ import { useDidShow, useDidHide } from '@tarojs/taro'
 // 假设我们要使用 Redux
 import { Provider } from 'react-redux'
 import configStore from './store/index'
-
+import api from './servers/api'
 // 全局样式
 import 'taro-ui/dist/style/index.scss' //全局引入一次即可
 import './app.less'
@@ -20,28 +20,18 @@ function App (props) {
       success: function (res) {
         if (res.code) {
           //发起网络请求
-          Taro.request({
-            url: 'http://localhost:3456/wxlogin',
-            data: {
-              code: res.code
-            },
-            success: res => {
-              const { data } = res
+          api.get('/wxlogin',{code: res.code}).then(res => {
+            const { data } = res
               console.log(data);
               Taro.setStorageSync('openid', data?.openid)
               Taro.setStorageSync('session_key', data?.session_key)
-
-            },
-            fail: res => {
-              console.log(res);
-            }
           })
         } else {
           console.log('登录失败！' + res.errMsg)
         }
       }
     })
-  })
+  }, [])
   // 对应 onShow
   useDidShow(() => {})
   // 对应 onHide

@@ -4,11 +4,8 @@ import React, { useState } from "react";
 import { connect } from 'react-redux';
 import './index.less';
 
-import configStore from "../../store";
-
 const Home = (props) => {
 
-  const [current, setCurrent] = useState(0)
   console.log(props);
   const { state } = props
   const taskList = [{
@@ -18,39 +15,40 @@ const Home = (props) => {
     name: '投票统计',
     icon: ''
   },{
-    name: '活动抽签',
+    name: '会议室预约',
     icon: ''
-  },{
-    name: '日程安排',
-    icon: ''
+
+  // },{
+  //   name: '日程安排',
+  //   icon: ''
   }]
   function taskhandle(item){
     if(item.name === '签到考勤') {
       Taro.navigateTo({
         url: '/pages/home/sign/index'
       })
-    } else if(item.name === '活动抽签') {
+    } else if(item.name === '会议室预约') {
       Taro.navigateTo({
-        url: '/pages/home/draw/index'
+        url: '/pages/home/bookroom/index'
       })
     } else if(item.name === '投票统计') {
       Taro.navigateTo({
         url: '/pages/home/vote/index'
       })
-    } else if(item.name === '日程安排') {
-      Taro.navigateTo({
-        url: '/pages/home/schedule/index'
-      })
+    // } else if(item.name === '日程安排') {
+    //   Taro.navigateTo({
+    //     url: '/pages/home/schedule/index'
+    //   })
     }
   }
   return (
     <>
       <View className="container">
-        {taskList.map((item, index) => {
-          return <div className="taskItem" onClick={()=>taskhandle(item)}>{item.name}
-          
-          </div>
-        })}
+        {
+          taskList.map((item, index) => {
+            return <View className="taskItem" onClick={()=>taskhandle(item)}>{item.name}</View>
+          })
+        }
       </View>
     </>
 
@@ -62,7 +60,7 @@ const Index = connect((state) => {//mapStateToProps
   return {
     state
   }
-},
+}
 )(Home)
 
 export default Index

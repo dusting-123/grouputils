@@ -9,5 +9,8 @@ wxUserRoutes.route('/wxlogin')
 
 wxUserRoutes.route('/wxuser')
   .get(wxlogin.getUserInfo)
-
+wxUserRoutes.route('/wxuser/update')
+  .get(wxlogin.update)
+wxUserRoutes.route('/wxlogin/getinfo')
+  .get(wxlogin.getinfo)
 export default wxUserRoutes 

@@ -8,6 +8,9 @@ import wxUserRoutes from "./src/routers/wxlogin.js";
 import signRoutes from './src/routers/sign.js'
 import signListRoutes from "./src/routers/signList.js";
 import voteRoutes from "./src/routers/vote.js";
+import roomRoutes from "./src/routers/bookroom.js";
+import preListRoutes from "./src/routers/preList.js";
+
 const app = express()
 //解决跨域
 app.use(cors())
@@ -20,7 +23,8 @@ app.use(wxUserRoutes)
 app.use('/sign', signRoutes)
 app.use('/signlist', signListRoutes)
 app.use('/vote', voteRoutes)
-
+app.use('/bookroom',roomRoutes)
+app.use('/prelist',preListRoutes)
 mongoose.connect(mongoUri, {
   keepAlive: 1,
   useNewUrlParser: true,

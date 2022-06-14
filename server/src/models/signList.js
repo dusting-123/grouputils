@@ -5,7 +5,6 @@ const signListSchema = new Schema({
   createdAt: { type: Date, },
   signid: {type: String},
   openid: {type: String},
-  type: {type: Number},
   title: {type: String},
   signStatus: {type: Number},
 })

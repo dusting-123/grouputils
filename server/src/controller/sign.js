@@ -1,13 +1,11 @@
 import model from '../models/sign.js';
 
-
-
 export function create(req, res, next) {
   let body = req.body
   model.create(body, (err, doc) => {
     if (!err) console.log(doc);
   })
-  res.send({ code: 200, scuess: true })
+  res.send({ code: 200, success: true })
 }
 
 export function list(req, res, next) {
@@ -18,11 +16,17 @@ export function list(req, res, next) {
       res.send({
         code: 200,
         data: doc,
-        scuess: true
+        success: true
       })
     }
   })
 }
-export function update(req, res, next) {
+export async function update(req, res, next) {
   const { query } = req
+  console.log(query);
+  await model.updateOne({signid: query.signid}, {...query}).exec()
+  res.send({
+    code: 200,
+    success: true
+  })
 }

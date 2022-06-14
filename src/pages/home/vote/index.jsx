@@ -3,7 +3,7 @@ import {
   Button, Image, Label, Picker,
   Radio, RadioGroup, Text, View, Input
 } from "@tarojs/components";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from 'react-redux';
 import {
   AtButton, AtForm,
@@ -15,10 +15,11 @@ import {
   AtModalContent, AtSwitch
 } from "taro-ui";
 import { randomString } from '@/utils/index';
+import {getUserInfoAsync} from "@/store/action"
 import api from "@/servers/api";
 import './index.less';
 const voteid = randomString(16);
-const VoteIn = (props) => {
+const VoteIn = ({getUserInfoAsync}) => {
   const [show, setShow] = useState(false)
   const [orignData, setOrignData] = useState({
     voteid: '',  //投票活动的id号
@@ -34,6 +35,10 @@ const VoteIn = (props) => {
     noName: false,  //匿名投票
     radio: 0,   //单选还是多选
   })
+  const openid = Taro.getStorageSync('openid')
+  useEffect(() => {
+    getUserInfoAsync(openid)
+  },[])
   useShareAppMessage(res => {
     if (res.from === 'button') {
       console.log(res.target)
@@ -211,10 +216,8 @@ const Vote = connect((state) => {//mapStateToProps
   return {
     state
   }
-}, (dispatch) => {
-  return {
-    // handleclick: (list) => dispatch(showEnActin(list))
-  }
+},  {
+  getUserInfoAsync: getUserInfoAsync
 })(VoteIn)
 
 export default Vote
